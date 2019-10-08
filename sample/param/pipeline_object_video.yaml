@@ -1,9 +1,12 @@
 Pipelines:
 - name: object
-  inputs: [StandardCamera]
+  inputs: [Video]
+  input_path: /data/dataset/track_test/PETS.mp4 
   infers:
     - name: ObjectDetection
-      model: /opt/openvino_toolkit/models/object_detection/mobilenet-ssd/caffe/output/FP16/mobilenet-ssd.xml
+      #model: /opt/openvino_toolkit/models/object_detection/mobilenet-ssd/caffe/output/FP16/mobilenet-ssd.xml
+      #model: /work/codes/pedestrian_detect/models/Retail/object_detection/pedestrian/rmnet_ssd/0013/dldt/person-detection-retail-0013.xml 
+      model: /work/codes/research/open_model_zoo/model_downloader/Retail/object_detection/pedestrian/rmnet_ssd/0013/dldt/person-detection-retail-0013.xml
       engine: GPU 
       label: to/be/set/xxx.labels
       batch: 1
@@ -11,7 +14,7 @@ Pipelines:
       enable_roi_constraint: true # set enable_roi_constraint to false if you don't want to make the inferred ROI (region of interest) constrained into the camera frame
   outputs: [ImageWindow, RosTopic, RViz]
   connects:
-    - left: StandardCamera
+    - left: Video 
       right: [ObjectDetection]
     - left: ObjectDetection
       right: [ImageWindow]
